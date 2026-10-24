@@ -1,0 +1,37 @@
+import collections
+
+class Solution:
+    def orangesRotting(self, grid: List[List[int]]) -> int:
+        if not grid:
+            return 0
+
+        ROWS = len(grid)
+        COLS = len(grid[0])
+        minutes = 0
+        numFresh = 0
+
+        q = collections.deque()
+
+        for r in range(ROWS):
+            for c in range(COLS):
+                if grid[r][c] == 1:
+                    numFresh += 1
+                elif grid[r][c] == 2:
+                    q.append((r,c))
+        
+        
+        while q:
+            for _ in range(len(q)):
+                r, c = q.popleft()
+                if grid[r][c] == 1:
+                    numFresh -= 1
+                    minutes += 1
+                    if numFresh == 0:
+                        return minutes
+
+                grid[r][c] = 2
+                addToQueue((r,c))
+                addToQueue((r,c))
+                addToQueue((r,c))
+                
+        
